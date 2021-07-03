@@ -51,4 +51,5 @@ public abstract class BaseEntity implements Persistable<Integer> {
     public int hashCode() {
         return id == null ? 0 : id;
     }
+
 }
