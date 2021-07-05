@@ -1,6 +1,7 @@
 package by.chernyavski.bootjava.repository;
 
 import by.chernyavski.bootjava.model.User;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
+@Tag(name = "User Controller")
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     @RestResource(rel = "by-email", path = "by-email")
