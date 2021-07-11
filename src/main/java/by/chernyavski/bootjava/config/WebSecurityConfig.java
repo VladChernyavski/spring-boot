@@ -4,6 +4,8 @@ import by.chernyavski.bootjava.AuthUser;
 import by.chernyavski.bootjava.model.Role;
 import by.chernyavski.bootjava.model.User;
 import by.chernyavski.bootjava.repository.UserRepository;
+import by.chernyavski.bootjava.util.JsonUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @Configuration
@@ -29,6 +32,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     private final UserRepository userRepository;
+    private final ObjectMapper objectMapper;
+
+    @PostConstruct
+    void setMapper() {
+        JsonUtil.setObjectMapper(objectMapper);
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
