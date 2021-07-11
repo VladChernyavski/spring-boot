@@ -30,7 +30,8 @@ public class UserControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(URL + USER_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON_VALUE));
+                .andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON_VALUE))
+                .andExpect(jsonMatcher(user, UserTestUtil::assertNoIdEquals));
     }
 
     @Test
@@ -40,6 +41,7 @@ public class UserControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaTypes.HAL_JSON_VALUE));
+//                .andExpect(jsonMatcher(admin, UserTestUtil::assertNoIdEquals));
     }
 
     @Test
@@ -74,7 +76,8 @@ public class UserControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(writeValue(newUser)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonMatcher(newUser, UserTestUtil::assertNoIdEquals));
     }
 
     @Test
@@ -85,6 +88,7 @@ public class UserControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(writeValue(updated)))
                 .andExpect(status().isNoContent());
+        UserTestUtil.assertEquals(updated, userRepository.findById(USER_ID).orElseThrow());
     }
 
 }
