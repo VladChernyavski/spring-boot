@@ -2,6 +2,7 @@ package by.chernyavski.bootjava.repository;
 
 import by.chernyavski.bootjava.model.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @RestResource(rel = "by-email", path = "by-email")
     @Query("SELECT u FROM User u WHERE u.email = LOWER(:email)")
+    @Cacheable("users")
     Optional<User> findByEmailIgnoreCase(String email);
 
     @RestResource(rel = "by-lastname", path = "by-lastname")
